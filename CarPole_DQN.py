@@ -17,7 +17,7 @@ class main():
         print("---------------")
         
         # create FrozenLake environment
-        env = gym.make('CartPole-v1')
+        env = gym.make('CartPole-v1')#sutton_barto_reward=True
         
         self.agent = Agent(args, env , [128,128]) # hidden layer size   
         
@@ -33,7 +33,7 @@ if __name__ == '__main__':
     parser.add_argument("--min_epsilon", type=float, default=0.05, help="Minimum value of epsilon for exploration")
     parser.add_argument("--batch_size", type=int, default=512, help="Batch size for training")
     parser.add_argument("--decay_rate", type=float, default=0.995, help="Epsilon decay rate per episode")
-    parser.add_argument("--epochs", type=int, default=600, help="Number of training episodes")
+    parser.add_argument("--epochs", type=int, default=200, help="Number of training episodes")
     parser.add_argument("--lr", type=float, default=1e-4, help="Learning rate for optimizer")
     parser.add_argument("--tau", type=float, default=0.005, help="Soft update rate for target network")
     parser.add_argument("--gamma", type=float, default=0.99, help="Discount factor for future rewards")

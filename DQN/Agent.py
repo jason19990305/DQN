@@ -84,22 +84,23 @@ class Agent():
                 
                 # interact with environment
                 next_state , reward , terminated, truncated, _ = self.env.step(action)   
-                done = terminated or truncated                                
-                self.replay_buffer.store(state, action, [reward] , next_state, [done])                
+                done = terminated or truncated
+                self.replay_buffer.store(state, action, [reward], next_state, [done])
+                
                 state = next_state
 
                 # Update Q-table
                 if self.replay_buffer.count > self.batch_size:
-                    self.update()                   
-                
+                    self.update()
             # Decay epsilon
             self.epsilon_decay(epoch)            
 
-            if epoch % 5 == 0:
+            if epoch % 100 == 0:
                 evaluate_reward = self.evaluate(self.env)
                 print("Epoch : %d / %d\t Reward : %0.2f"%(epoch,self.epochs , evaluate_reward))
                 episode_reward_list.append(evaluate_reward)
                 episode_count_list.append(episode_count)
+                
             episode_count += 1
 
         # Plot the training curve
@@ -147,17 +148,26 @@ class Agent():
             state, info = render_env.reset()
             done = False
             episode_reward = 0
+            expected_reward_list = []
 
             while not done:                
                 action = self.evaluate_action(state)
                 
                 # interact with environment
                 next_state , reward , terminated, truncated, _ = render_env.step(action)
-                
+                with torch.no_grad():
+                    tensor_next_state = torch.unsqueeze(torch.tensor(next_state), dim=0)
+                    expected_reward = reward + self.gamma * self.target_Q_model(tensor_next_state).max().item()
+                    expected_reward_list.append(expected_reward)
                     
                 done = terminated or truncated
                 state = next_state
                 episode_reward += reward
+            #plt.plot(expected_reward_list)
+            #plt.xlabel("Step")
+            #plt.ylabel("Expected Reward")
+            #plt.title("Expected Reward per Step")
+            #plt.show()
             reward_list.append(episode_reward)
         reward_list = np.array(reward_list)
         return reward_list.mean()
