@@ -95,7 +95,7 @@ class Agent():
             # Decay epsilon
             self.epsilon_decay(epoch)            
 
-            if epoch % 100 == 0:
+            if epoch % 10 == 0:
                 evaluate_reward = self.evaluate(self.env)
                 print("Epoch : %d / %d\t Reward : %0.2f"%(epoch,self.epochs , evaluate_reward))
                 episode_reward_list.append(evaluate_reward)
@@ -143,7 +143,7 @@ class Agent():
         render_env = env
 
         reward_list = []
-        for i in range(10):
+        for i in range(5):
             # reset environment
             state, info = render_env.reset()
             done = False
