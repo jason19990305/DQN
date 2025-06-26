@@ -21,8 +21,6 @@ class Agent():
                  
         
         # Variable
-        self.total_steps = 0
-        self.training_count = 0
         self.episode_count = 0
         self.epsilon = 0.9 # initial epsilon
 
