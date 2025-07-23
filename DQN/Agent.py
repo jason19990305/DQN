@@ -30,17 +30,19 @@ class Agent():
         self.replay_buffer = ReplayBuffer(args)
         # The model interacts with the environment and gets updated continuously
         self.eval_Q_model = Network(args , hidden_layer_list.copy())
-        print(self.eval_Q_model)
+        
 
         # The model be replaced regularly
         self.target_Q_model = Network(args , hidden_layer_list.copy())
-        print(self.target_Q_model)
+        
         # Copy the parameters of eval_Q_model to target_Q_model
         self.target_Q_model.load_state_dict(self.eval_Q_model.state_dict())
         self.optimizer_Q_model = torch.optim.Adam(self.eval_Q_model.parameters() , lr = self.lr , eps=1e-5)
         self.Loss_function = nn.SmoothL1Loss()
-        
-        
+        print(self.eval_Q_model)
+        print(self.target_Q_model)
+        print("-----------")
+
     def choose_action(self, state):
         # Epsilon-greedy action selection
         with torch.no_grad():            

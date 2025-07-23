@@ -24,7 +24,8 @@ class main():
         self.agent.train()       
         render_env = gym.make('CartPole-v1', render_mode="human")  
         for i in range(1000):
-            self.agent.evaluate(render_env)
+            evaluate_reward = self.agent.evaluate(render_env)
+            print(f"Evaluate Episode {i+1}: Average Reward = {evaluate_reward:.2f}")
 
 
 if __name__ == '__main__':
