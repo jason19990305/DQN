@@ -163,11 +163,6 @@ class Agent():
                 done = terminated or truncated
                 state = next_state
                 episode_reward += reward
-            #plt.plot(expected_reward_list)
-            #plt.xlabel("Step")
-            #plt.ylabel("Expected Reward")
-            #plt.title("Expected Reward per Step")
-            #plt.show()
             reward_list.append(episode_reward)
         reward_list = np.array(reward_list)
         return reward_list.mean()
